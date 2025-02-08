@@ -1,11 +1,11 @@
 # File Encrypter Decrypter
 
 ## Overview
-File Encrypter Decrypter is a Windows Forms application that provides functionality to encrypt and decrypt files using the AES encryption algorithm. The application is written in C# and utilizes the .NET framework.
+File Encrypter Decrypter is a Windows Forms application that provides functionality to encrypt and decrypt files using the XOR cipher. The application is written in C# and utilizes the .NET framework.
 
 ## Features
-- **Encrypt Files**: Secure your files with AES encryption.
-- **Decrypt Files**: Retrieve your original files with the correct key and IV.
+- **Encrypt Files**: Secure your files using XOR encryption with a predefined key.
+- **Decrypt Files**: Retrieve your original files using the same XOR key.
 
 ## Requirements
 - .NET Framework (version 4.7.2 or later)
