@@ -60,7 +60,7 @@ namespace FileEncrypterDecrypter
                 }
             }
 
-            File.Delete(filePath); // Ensure the original file is closed before deleting
+            File.Delete(filePath);
             File.Move(filePath + ".enc", filePath);
 
             MessageBox.Show("Encryption successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -87,7 +87,7 @@ namespace FileEncrypterDecrypter
                 }
             }
 
-            File.Delete(filePath); // Ensure the original file is closed before deleting
+            File.Delete(filePath);
             File.Move(filePath + ".dec", filePath);
 
             MessageBox.Show("Decryption successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
