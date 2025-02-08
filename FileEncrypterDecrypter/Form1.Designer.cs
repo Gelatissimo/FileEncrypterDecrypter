@@ -61,10 +61,12 @@
             // openFileDialog_Encrypt
             // 
             this.openFileDialog_Encrypt.FileName = "openFileDialog_Encrypt";
+            this.openFileDialog_Encrypt.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_Encrypt_FileOk);
             // 
             // openFileDialog_Decrypt
             // 
             this.openFileDialog_Decrypt.FileName = "openFileDialog_Decrypt";
+            this.openFileDialog_Decrypt.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_Decrypt_FileOk);
             // 
             // FileEncrypterDecrypter_ObisoJ
             // 
