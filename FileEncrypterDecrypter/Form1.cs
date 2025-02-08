@@ -13,7 +13,7 @@ namespace FileEncrypterDecrypter
 {
     public partial class FileEncrypterDecrypter_ObisoJ : Form
     {
-        private readonly byte[] key = Encoding.UTF8.GetBytes("securekey"); // Example key
+        private readonly byte[] key = Encoding.UTF8.GetBytes("meowmeowmeow");
 
         public FileEncrypterDecrypter_ObisoJ()
         {
