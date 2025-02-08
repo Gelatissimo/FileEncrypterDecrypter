@@ -16,5 +16,15 @@ namespace FileEncrypterDecrypter
         {
             InitializeComponent();
         }
+
+        private void btnEncrypt_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDecrypt_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
