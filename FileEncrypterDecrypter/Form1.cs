@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,7 +13,7 @@ namespace FileEncrypterDecrypter
 {
     public partial class FileEncrypterDecrypter_ObisoJ : Form
     {
-        private readonly byte[] key = Encoding.UTF8.GetBytes("aB1cD2eF3gH4iJ5kL6mN7oP8qR9sT0uV");
+        private readonly byte[] key = Encoding.UTF8.GetBytes("securekey"); // Example key
 
         public FileEncrypterDecrypter_ObisoJ()
         {
@@ -33,65 +32,28 @@ namespace FileEncrypterDecrypter
 
         private void openFileDialog_Encrypt_FileOk(object sender, CancelEventArgs e)
         {
-            EncryptFile(openFileDialog_Encrypt.FileName);
+            byte[] fileBytes = File.ReadAllBytes(openFileDialog_Encrypt.FileName);
+            byte[] encryptedBytes = XorCipher(fileBytes);
+            File.WriteAllBytes(openFileDialog_Encrypt.FileName, encryptedBytes);
+            MessageBox.Show("File successfully encrypted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void openFileDialog_Decrypt_FileOk(object sender, CancelEventArgs e)
         {
-            DecryptFile(openFileDialog_Decrypt.FileName);
+            byte[] fileBytes = File.ReadAllBytes(openFileDialog_Decrypt.FileName);
+            byte[] decryptedBytes = XorCipher(fileBytes);
+            File.WriteAllBytes(openFileDialog_Decrypt.FileName, decryptedBytes);
+            MessageBox.Show("File successfully decrypted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void EncryptFile(string filePath)
+        private byte[] XorCipher(byte[] data)
         {
-            using (Aes aes = Aes.Create())
+            byte[] result = new byte[data.Length];
+            for (int i = 0; i < data.Length; i++)
             {
-                aes.Key = key;
-                aes.GenerateIV();
-
-                string tempFilePath = filePath + ".enc";
-                using (FileStream fs = new FileStream(tempFilePath, FileMode.Create))
-                {
-                    fs.Write(aes.IV, 0, aes.IV.Length);
-                    using (CryptoStream cryptoStream = new CryptoStream(fs, aes.CreateEncryptor(), CryptoStreamMode.Write))
-                    using (FileStream inputFs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None))
-                    {
-                        inputFs.CopyTo(cryptoStream);
-                    }
-                }
+                result[i] = (byte)(data[i] ^ key[i % key.Length]);
             }
-
-            File.Delete(filePath);
-            File.Move(filePath + ".enc", filePath);
-
-            MessageBox.Show("Encryption successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return result;
         }
-
-        private void DecryptFile(string filePath)
-        {
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = key;
-                string tempFilePath = filePath + ".dec";
-
-                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None))
-                {
-                    byte[] iv = new byte[aes.BlockSize / 8];
-                    fs.Read(iv, 0, iv.Length);
-                    aes.IV = iv;
-
-                    using (FileStream outputFs = new FileStream(tempFilePath, FileMode.Create))
-                    using (CryptoStream cryptoStream = new CryptoStream(fs, aes.CreateDecryptor(), CryptoStreamMode.Read))
-                    {
-                        cryptoStream.CopyTo(outputFs);
-                    }
-                }
-            }
-
-            File.Delete(filePath);
-            File.Move(filePath + ".dec", filePath);
-
-            MessageBox.Show("Decryption successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
     }
 }
